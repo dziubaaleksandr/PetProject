@@ -15,7 +15,6 @@ import os
 from dotenv import load_dotenv
 
 env_path = Path(__file__).resolve().parent.parent.parent / 'Docker/.env'
-print(env_path)
 load_dotenv(dotenv_path=env_path)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -43,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts',
+    'analytics',
 ]
 
 MIDDLEWARE = [
