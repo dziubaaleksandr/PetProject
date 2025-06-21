@@ -11,6 +11,7 @@ class Transaction(models.Model):
     date = models.DateField()
     description = models.CharField(max_length=255)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
     type = models.CharField(max_length=7, choices=TRANSACTION_TYPES)
 
     def __str__(self):
