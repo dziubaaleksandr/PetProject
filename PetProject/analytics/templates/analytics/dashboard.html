@@ -1,0 +1,32 @@
+<h2>Dashboard</h2>
+
+<p><strong>Income:</strong> ${{ income_total }}</p>
+<p><strong>Expenses:</strong> ${{ expense_total }}</p>
+<p><strong>Balance:</strong> ${{ balance }}</p>
+
+<canvas id="transactionChart" width="800" height="400"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('transactionChart').getContext('2d');
+const transactionChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ chart_labels|safe }},
+        datasets: [
+            {
+                label: 'Income',
+                data: {{ chart_income|safe }},
+                borderColor: 'green',
+                fill: false,
+            },
+            {
+                label: 'Expenses',
+                data: {{ chart_expense|safe }},
+                borderColor: 'red',
+                fill: false,
+            }
+        ]
+    },
+});
+</script>
