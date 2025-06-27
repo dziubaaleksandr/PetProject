@@ -1,9 +1,13 @@
 import pandas as pd
 from django.views.generic.edit import FormView
+from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Sum
 from django.urls import reverse_lazy
 from .forms import UploadFileForm
 from .models import Transaction, Category
+from django.db.models.functions import TruncMonth
+from .models import Transaction
 
 
 class UploadView(LoginRequiredMixin, FormView):
@@ -51,3 +55,47 @@ class UploadView(LoginRequiredMixin, FormView):
             form.add_error('file', f'Error processing file: {e}')
             return self.form_invalid(form)
         return super().form_valid(form)
+
+
+class DashboardView(LoginRequiredMixin, TemplateView):
+    template_name = 'analytics/dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        user = self.request.user
+        transaction = Transaction.objects.filter(user=user)
+
+        # KPIs
+        context['income_total'] = transaction.filter(
+            type='income').aggregate(
+            total=Sum('amount'))['total'] or 0
+        context['expense_total'] = transaction.filter(
+            type='expense').aggregate(
+            total=Sum('amount'))['total'] or 0
+        context['balance'] = context['income_total'] - context['expense_total']
+
+        # Monthly aggregation
+        monthly_data = transaction.annotate(
+            month=TruncMonth('date')).values(
+            'month', 'type').annotate(
+            total=Sum('amount')).order_by('month')
+
+        # Reformat for Chart.js
+        months = sorted(set(row['month'].strftime('%Y-%m')
+                        for row in monthly_data))
+        income_data = {m: 0 for m in months}
+        expense_data = {m: 0 for m in months}
+
+        for row in monthly_data:
+            month = row['month'].strftime('%Y-%m')
+            if row['type'] == 'income':
+                income_data[month] = float(row['total'])
+            else:
+                expense_data[month] = float(row['total'])
+
+        context['chart_labels'] = list(income_data.keys())
+        context['chart_income'] = list(income_data.values())
+        context['chart_expense'] = list(expense_data.values())
+
+        return context
