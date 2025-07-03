@@ -1,0 +1,9 @@
+<h2>AI Suggestions</h2>
+
+<ul>
+  {% for insight in insights %}
+    <li>{{ insight }}</li>
+  {% endfor %}
+</ul>
+
+<p><a href="{% url 'dashboard' %}">← Back to Dashboard</a></p>
