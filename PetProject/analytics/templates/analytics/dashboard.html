@@ -1,34 +1,56 @@
-<h2>Dashboard</h2>
+{% extends "base.html" %}
+{% block content %}
 
-<p><strong>Income:</strong> ${{ income_total }}</p>
-<p><strong>Expenses:</strong> ${{ expense_total }}</p>
-<p><strong>Balance:</strong> ${{ balance }}</p>
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Total Income</h5>
+                <p class="card-text">${{ income_total }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Total Expense</h5>
+                <p class="card-text">${{ expense_total }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Net Balance</h5>
+                <p class="card-text">${{ balance }}</p>
+            </div>
+        </div>
+    </div>
+</div>
 
-<canvas id="transactionChart" width="800" height="400"></canvas>
+<canvas id="myChart" height="120"></canvas>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-const ctx = document.getElementById('transactionChart').getContext('2d');
-const transactionChart = new Chart(ctx, {
-    type: 'line',
-    data: {
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const data = {
         labels: {{ chart_labels|safe }},
-        datasets: [
-            {
-                label: 'Income',
-                data: {{ chart_income|safe }},
-                borderColor: 'green',
-                fill: false,
-            },
-            {
-                label: 'Expenses',
-                data: {{ chart_expense|safe }},
-                borderColor: 'red',
-                fill: false,
-            }
-        ]
-    },
-});
+        datasets: [{
+            label: 'Income',
+            data: {{ chart_income|safe }},
+            borderColor: 'green',
+            tension: 0.3
+        }, {
+            label: 'Expense',
+            data: {{ chart_expense|safe }},
+            borderColor: 'red',
+            tension: 0.3
+        }]
+    };
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        data: data
+    });
 </script>
 
-<p><a href="{% url 'insights' %}">← Back to Insights</a></p>
+
+{% endblock %}
