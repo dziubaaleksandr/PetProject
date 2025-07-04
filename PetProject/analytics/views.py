@@ -4,12 +4,11 @@ from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
 from django.urls import reverse_lazy
-from .forms import UploadFileForm
-from .models import Transaction, Category
 from django.db.models.functions import TruncMonth
-from .models import Transaction
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import StandardScaler
+from .forms import UploadFileForm
+from .models import Transaction, Category
 
 
 class UploadView(LoginRequiredMixin, FormView):
