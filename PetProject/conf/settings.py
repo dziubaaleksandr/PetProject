@@ -39,6 +39,7 @@ LOGIN_REDIRECT_URL = 'upload'
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
     'accounts',
     'analytics',
     'django.contrib.admin',
