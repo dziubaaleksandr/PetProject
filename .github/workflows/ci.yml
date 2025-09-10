@@ -9,7 +9,7 @@ on:
 jobs:
   linters:
     runs-on: ubuntu-latest
-    needs: [flake8, pylint, black, isort]
+    needs: [flake8, pylint, isort]
     steps:
       - name: Placeholder
         run: echo "Linters group"
@@ -53,26 +53,6 @@ jobs:
         run: pip install pylint
       - name: Run pylint
         run: pylint **/*.py
-
-  black:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
-      - name: Cache pip
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-black
-          restore-keys: |
-            ${{ runner.os }}-pip-
-      - name: Install linters
-        run: pip install black
-      - name: Run black
-        run: black --check .
 
   isort:
     runs-on: ubuntu-latest

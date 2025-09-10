@@ -169,7 +169,7 @@ docker exec -it django-app python manage.py test
 ## 🔄 Continuous Integration (CI)
 
 This project uses **GitHub Actions** for Continuous Integration:  
-- ✅ Linting with **flake8**, **pylint**, **black**, **isort**  
+- ✅ Linting with **flake8**, **pylint**, **isort**  
 - ✅ Running Django unit tests inside CI  
 
 Workflow file: `.github/workflows/ci.yml`
