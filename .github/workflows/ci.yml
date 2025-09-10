@@ -31,6 +31,7 @@ jobs:
       - name: Install linters
         run: pip install flake8
       - name: Run flake8
+        working-directory: PetProject
         run: flake8 .
 
   pylint:
