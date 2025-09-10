@@ -20,9 +20,10 @@ def generate_insights(transactions_queryset):
     df['month'] = pd.to_datetime(df['month'])
     df.sort_values('month')
     df['month_number'] = ((df['month'] - df['month'].min()
-                            ).dt.days // 30).astype(float)
+                           ).dt.days // 30).astype(float)
     # Apply a 3-month rolling average to smooth out short-term income fluctuations.
-    # This helps highlight the underlying trend by reducing the impact of outliers or noise.
+    # This helps highlight the underlying trend
+    # by reducing the impact of outliers or noise.
     df['smoothed'] = df['total'].rolling(window=3, min_periods=1).mean()
 
     X_raw = df[['month_number']]
@@ -52,8 +53,7 @@ def generate_insights(transactions_queryset):
         last = df.iloc[-1]
         prev = df.iloc[-2]
         delta = last['total'] - prev['total']
-        pct_change = (delta / prev['total']
-                        ) * 100 if prev['total'] != 0 else 0
+        pct_change = (delta / prev["total"]) * 100 if prev["total"] != 0 else 0
 
         if pct_change < -10:
             insights.append(
