@@ -1,0 +1,23 @@
+[MASTER]
+# Максимально отключаем лишний шум
+ignore=migrations,venv,.venv,env,__pycache__
+ignore-patterns=.*__init__\.py,.*admin\.py,.*apps\.py,.*settings\.py,manage\.py,conf/asgi\.py,conf/wsgi\.py,conf/settings\.py
+
+# Путь, с которого запускать анализ (опционально)
+# init-hook='import sys; sys.path.append("PetProject")'
+
+# Настройки выводимых сообщений
+load-plugins=pylint_django
+
+[MESSAGES CONTROL]
+# Отключаем предупреждения, которые обычно появляются в Django boilerplate
+disable=
+    missing-docstring,
+    import-outside-toplevel,
+    invalid-name,
+    too-few-public-methods,
+    no-member
+
+[FORMAT]
+# Максимальная длина строки
+max-line-length=88

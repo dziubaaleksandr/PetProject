@@ -46,13 +46,18 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-pylint
+          key: ${{ runner.os }}-pip-${{ hashFiles('Docker/requirements.txt', 'requirements-dev.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
+      - name: Install dependencies
+        run: pip install -r Docker/requirements.txt
       - name: Install linters
-        run: pip install pylint
+        run: pip install pylint pylint-django
       - name: Run pylint
-        run: pylint **/*.py
+        working-directory: PetProject
+        env:
+          DJANGO_SETTINGS_MODULE: conf.settings
+        run: pylint **/*.py --rcfile=.pylintrc
 
   isort:
     runs-on: ubuntu-latest
