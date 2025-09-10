@@ -22,6 +22,7 @@ Track sales and expenses, visualize KPIs, and get **AI-powered business insights
 - ✅ REST API with **Django REST Framework (DRF)**  
 - ✅ Unit tests for critical logic (upload, KPIs, API)  
 - ✅ Dockerized environment (Python + PostgreSQL)  
+- ✅ Continuous Integration (CI) with **GitHub Actions** (Linting + Tests)  
 
 ---
 
@@ -33,6 +34,7 @@ Track sales and expenses, visualize KPIs, and get **AI-powered business insights
 - **Frontend**: Bootstrap 5, Chart.js  
 - **Deployment**: Docker & Docker Compose  
 - **Tests**: Django’s built-in `TestCase`  
+- **CI/CD**: GitHub Actions (flake8 + tests)  
 
 ---
 
@@ -99,6 +101,10 @@ PetProject/
 │   │
 │   ├── manage.py
 │
+├── .github/
+│   └── workflows/
+│       └── ci.yml              # GitHub Actions workflow (Lint + Tests)
+│
 ├── .gitignore
 ├── README.md
 ```
@@ -160,6 +166,16 @@ docker exec -it django-app python manage.py test
 
 ---
 
+## 🔄 Continuous Integration (CI)
+
+This project uses **GitHub Actions** for Continuous Integration:  
+- ✅ Linting with **flake8**  
+- ✅ Running Django unit tests inside CI  
+
+Workflow file: `.github/workflows/ci.yml`
+
+---
+
 ## 🎯 Why this project?
 
 This project demonstrates **middle Python developer skills**:
@@ -169,6 +185,7 @@ This project demonstrates **middle Python developer skills**:
 - Integrating **Pandas** & **Scikit-learn** into Django workflow  
 - Building both **UI dashboard** and **REST API**  
 - Writing **unit tests** and using Docker for reproducibility  
+- Setting up **CI with GitHub Actions**  
 - Following a phased roadmap (professional development approach)  
 
 ---
