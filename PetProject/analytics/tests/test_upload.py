@@ -1,8 +1,9 @@
 import io
-from django.test import TestCase, Client
+
+from analytics.models import Category, Transaction
 from django.contrib.auth.models import User
+from django.test import Client, TestCase
 from django.urls import reverse
-from analytics.models import Transaction, Category
 
 
 class UploadTestCase(TestCase):

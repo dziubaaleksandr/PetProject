@@ -1,9 +1,11 @@
+from django.db.models import Sum
 from rest_framework import generics, permissions
 from rest_framework.response import Response
-from django.db.models import Sum
+
+from ..ai import generate_insights
 from ..models import Transaction
 from .serializers import TransactionSerializer
-from ..ai import generate_insights
+
 
 class TransactionListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = TransactionSerializer

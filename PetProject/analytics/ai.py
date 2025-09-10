@@ -1,8 +1,8 @@
 import pandas as pd
-from sklearn.linear_model import LinearRegression
-from sklearn.preprocessing import StandardScaler
 from django.db.models import Sum
 from django.db.models.functions import TruncMonth
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import StandardScaler
 
 
 def generate_insights(transactions_queryset):

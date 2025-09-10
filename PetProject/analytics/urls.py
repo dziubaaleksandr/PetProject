@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import UploadView, DashboardView, InsightView
+
+from .views import DashboardView, InsightView, UploadView
 
 urlpatterns = [
     path('upload/', UploadView.as_view(), name='upload'),

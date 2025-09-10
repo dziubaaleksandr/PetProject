@@ -1,13 +1,14 @@
 import pandas as pd
-from django.views.generic.edit import FormView
-from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
-from django.urls import reverse_lazy
 from django.db.models.functions import TruncMonth
-from .forms import UploadFileForm
-from .models import Transaction, Category
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView
+from django.views.generic.edit import FormView
+
 from .ai import generate_insights
+from .forms import UploadFileForm
+from .models import Category, Transaction
 
 
 class UploadView(LoginRequiredMixin, FormView):
