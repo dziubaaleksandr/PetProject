@@ -1,10 +1,13 @@
 import pandas as pd
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 from django.db.models import Sum
 from django.db.models.functions import TruncMonth
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
+from pandas.errors import ParserError
 
 from .ai import generate_insights
 from .forms import UploadFileForm
@@ -28,13 +31,17 @@ class UploadView(LoginRequiredMixin, FormView):
                 form.add_error(
                     'file', 'Unsupported file type. Use .csv or .xlsx')
                 return self.form_invalid(form)
+        except (ParserError, ValueError) as e:
+            form.add_error('file', f'Error parsing file: {e}')
+            return self.form_invalid(form)
 
-            required_cols = ['date', 'description',
-                             'amount', 'category', 'type']
-            if not all(col in df.columns for col in required_cols):
-                form.add_error('file', 'Missing required columns.')
-                return self.form_invalid(form)
+        required_cols = ['date', 'description',
+                         'amount', 'category', 'type']
+        if not all(col in df.columns for col in required_cols):
+            form.add_error('file', 'Missing required columns.')
+            return self.form_invalid(form)
 
+        try:
             for _, row in df.iterrows():
                 # Get or create category for this user
                 category_name = row['category'].strip().lower()
@@ -52,9 +59,10 @@ class UploadView(LoginRequiredMixin, FormView):
                     category=category_obj,
                     type=row['type'],
                 )
-        except Exception as e:
+        except (KeyError, IntegrityError, ValidationError, ValueError) as e:
             form.add_error('file', f'Error processing file: {e}')
             return self.form_invalid(form)
+
         return super().form_valid(form)
 
 
